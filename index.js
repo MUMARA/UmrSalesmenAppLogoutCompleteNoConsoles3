@@ -79,8 +79,7 @@ app.post("/signIn", function (req, res) {
             //res.send("this is authData", authData);
             userModel.findOne({ uid: authData.uid }, function (err, record) {
                 if (err) {
-                    console.log("Error in finding User");
-                    console.log(err);
+                    console.log("Error in finding User", err);
                 }
                 else {
                     res.json({
@@ -109,7 +108,7 @@ var companySchema = Schema({
 /* company model*/
 var company = mongoose.model('company', companySchema);
 app.post("/registerCompany", function (req, res) {
-    console.log(req.body);
+    // console.log(req.body);
     //
     // userModel.findOne({uid:'0ccad774-cfbc-401f-a052-e42d62681fa8'},(err,data)=>{
     //    if(!err){
@@ -119,24 +118,20 @@ app.post("/registerCompany", function (req, res) {
     //    });
     userModel.findOne({ uid: req.body.firebaseUid }, function (err, data) {
         if (!err) {
-            console.log("index.ts userModel.findOne user data is ", data._id, " & userModel IS ", userModel.fname);
             var adminData = new company({
                 companyName: req.body.companyName,
                 companyAddress: req.body.companyAddress,
                 companyPhone: req.body.companyPhone,
                 firebaseUid: req.body.firebaseUid,
-                getSignUp: data._id //req.body.firebaseUid
+                getSignUp: data._id
             });
             adminData.save(function (err, adminSave) {
                 {
                     if (err) {
                         console.log("error Recived from adminData", err);
-                        res.json({ success: false, "msg": "Error Recived", err: err });
                     }
                     else {
                         console.log("adminData.save function is ", adminSave);
-                        //    console.log("Data Successfully Send to data Base", data);
-                        res.json({ success: true, "msg": "data Send Successfully", data: adminSave });
                     }
                 }
             }).then(function () {
@@ -149,6 +144,7 @@ app.post("/registerCompany", function (req, res) {
                     }
                     else {
                         console.log('The company is ', company);
+                        res.json(company);
                     }
                 });
             });
@@ -178,5 +174,5 @@ process.on('SIGINT', function () {
         process.exit(0);
     });
 });
-////////////////mongodb connected disconnected events///////////////////////////////////////////////
+////////////////mongodb connected disconnected events/////////////////////////////////////////////// 
 //# sourceMappingURL=index.js.map

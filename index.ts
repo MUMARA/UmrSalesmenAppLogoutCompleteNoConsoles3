@@ -70,8 +70,7 @@ app.post("/signUp", function (req, res) {
     })
 });
 app.post("/signIn", function (req, res) {
-       
-    
+
     console.log(req.body.email, req.body.password);
 
     ref.authWithPassword({
@@ -86,8 +85,7 @@ app.post("/signIn", function (req, res) {
             //res.send("this is authData", authData);
             userModel.findOne({uid: authData.uid}, function (err, record) {
                 if (err) {
-                    console.log("Error in finding User");
-                    console.log(err);
+                    console.log("Error in finding User", err);
 
                 } else {
                     res.json({
@@ -115,7 +113,7 @@ let companySchema = Schema({
     companyAddress: String,
     companyPhone: Number,
     firebaseUid: String,//{type: Schema.Types.ObjectId, ref: 'users'},
-    getSignUp : {type: Schema.Types.ObjectId, ref: 'users'}
+    getSignUp: {type: Schema.Types.ObjectId, ref: 'users'}
 });
 /* company schema*/
 
@@ -123,7 +121,7 @@ let companySchema = Schema({
 var company = mongoose.model('company', companySchema);
 
 app.post("/registerCompany", function (req, res) {
-    console.log(req.body);
+    // console.log(req.body);
     //
     // userModel.findOne({uid:'0ccad774-cfbc-401f-a052-e42d62681fa8'},(err,data)=>{
     //    if(!err){
@@ -131,54 +129,48 @@ app.post("/registerCompany", function (req, res) {
     //    }
     //
 //    });
+    userModel.findOne({uid: req.body.firebaseUid}, (err, data)=> {
+        if (!err) {
+            var adminData = new company({
+                companyName: req.body.companyName,
+                companyAddress: req.body.companyAddress,
+                companyPhone: req.body.companyPhone,
+                firebaseUid: req.body.firebaseUid,
+                getSignUp: data._id
+            });
 
-
-userModel.findOne({uid : req.body.firebaseUid},(err,data)=>{
-       if(!err){
-           console.log("index.ts userModel.findOne user data is ",data._id," & userModel IS ",userModel.fname)
-           var adminData = new company({
-               companyName: req.body.companyName,
-               companyAddress: req.body.companyAddress,
-               companyPhone: req.body.companyPhone,
-               firebaseUid: req.body.firebaseUid,
-               getSignUp : data._id //req.body.firebaseUid
-           });
-
-           adminData.save(function (err, adminSave) {
-               {
-                   if (err) {
-                       console.log("error Recived from adminData", err);
-                       res.json({success: false, "msg": "Error Recived", err: err})
-                   }
-                   else {
-                       console.log("adminData.save function is ", adminSave);
-                       //    console.log("Data Successfully Send to data Base", data);
-                       res.json({success: true, "msg": "data Send Successfully", data: adminSave})
-                   }
-               }
-           }).then(function () {
-                   return company
-                       .findOne({companyName: req.body.companyName})
-                       .populate('getSignUp')
-                       .exec(function(err , company){
-                           if(err){console.log('err in population',err)}
-                           else{ console.log('The company is ',company);}
-                       });
-               }
-           )
-       }else{
-           console.log("error findone");
-       }
-
+            adminData.save(function (err, adminSave) {
+                {
+                    if (err) {
+                        console.log("error Recived from adminData", err);
+                       // res.json({success: false, "msg": "Error Recived", err: err})
+                    }
+                    else {
+                        console.log("adminData.save function is ", adminSave);
+                        //    console.log("Data Successfully Send to data Base", data);
+                        //res.json({success: true, "msg": "data Send Successfully", data: adminSave})
+                    }
+                }
+            }).then(function () {
+                    return company
+                        .findOne({companyName: req.body.companyName})
+                        .populate('getSignUp')
+                        .exec(function (err, company) {
+                            if (err) {
+                                console.log('err in population', err)
+                            }
+                            else {
+                                console.log('The company is ', company);
+                                res.json(company);
+            }
+                        });
+                }
+            )
+        } else {
+            console.log("error findone");           
+        }
     });
-
-
-
-
-
-
 });
-    
 ////////////////mongodb connected disconnected events///////////////////////////////////////////////
 mongoose.connection.on('connected', function () {//connected
     console.log("Mongoose is connected");

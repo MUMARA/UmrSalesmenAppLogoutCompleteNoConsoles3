@@ -11,7 +11,7 @@ angular.module('starter')
                     firebaseUid: localStorage.getItem("uid")
                 }).then(function (response) {
                 $scope.displayAdmin = response.data;
-                console.log("we see company or not  ",response.data);
+              //  console.log("we see company or not  ",response.data);
                 $rootScope.registerAdmin = response.data;
                 $state.go('companyMainPage')
             })            

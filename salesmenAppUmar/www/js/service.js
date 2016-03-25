@@ -18,7 +18,7 @@ app.service('authDataService', function ($http) {
 
        // console.log("data is ", vm.data);
 
-
+//console.log("vm.data.record.uid is " ,vm.data.record.uid);
         localStorage.setItem("uid", vm.data.record.uid);
        // localStorage.setItem("token", vm.data.record.token);
 

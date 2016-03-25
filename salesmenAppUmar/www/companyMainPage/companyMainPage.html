@@ -1,8 +1,40 @@
-<p>companyMainPage</p>
+<div class="bar bar-header bar-dark">
+    <h1 class="title">companyMainPage</h1>
+</div>
+<br/>
+<br/>
+<br/>
 <ul>
-  <li>{{registerAdmin}}</li>
-  </ul>
+    <li>{{registerAdmin}}</li>
+</ul>
+
+
+<div class="list">
+    <label class="item item-input">
+        <input type="text" ng-model="salesman.firstName"  placeholder="First Name">
+    </label>
+    <label class="item item-input">
+        <input type="text"  ng-model="salesman.lastName" placeholder="Last Name">
+    </label>
+    <label class="item item-input">
+        <input type="number"  ng-model="salesman.mobileNumber" placeholder="Mobile Number">
+    </label>
+    <label class="item item-input">
+        <input type="number"  ng-model="salesman.nicNumber" placeholder="NIC Number">
+    </label>
+    <label class="item item-input">
+        <textarea ng-model="salesman.comments" placeholder="Comments"></textarea>
+    </label>
+</div>
+<button class="button button-dark" ng-click="add(salesman)">
+    Add Salesman
+</button>
+
+<button class="button button-dark" ng-click="show()">
+    Show Salesman
+</button>
+
 <button class="button button-positive" ng-click="logOut()">
-  LOG OUT
+    LOG OUT
 </button>
 

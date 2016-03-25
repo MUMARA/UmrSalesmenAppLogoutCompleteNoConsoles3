@@ -54,11 +54,10 @@ app.post("/signUp", function (req, res) {
             newuser.save(function (err, data) {
                 if (err) {
                     console.log("error Recived from sign up", err);
-                    res.json({ success: false, "msg": "Error Recived", err: err });
                 }
                 else {
-                    //    console.log("Data Successfully Send to data Base", data);
-                    res.json({ success: true, "msg": "data Send Successfully", data: data });
+                    console.log("Data Successfully Send to data Base", data, " & data._id is ", data._id);
+                    res.json({ success: true, "msg": "data Send Successfully", data: data._id });
                 }
             });
         }
@@ -108,13 +107,11 @@ var companySchema = Schema({
 /* company model*/
 var company = mongoose.model('company', companySchema);
 app.post("/registerCompany", function (req, res) {
-    // console.log(req.body);
-    //
+    // console.log(req.body);    //
     // userModel.findOne({uid:'0ccad774-cfbc-401f-a052-e42d62681fa8'},(err,data)=>{
     //    if(!err){
-    //        console.log("index.ts userModel.findOne user data is ",data," & userModel IS ",userModel.fname)
+    //        console.log("index.ts userModel.findOne user data is ",data," & userModel IS ",userModel.fname)    
     //    }
-    //
     //    });
     userModel.findOne({ uid: req.body.firebaseUid }, function (err, data) {
         if (!err) {
@@ -131,7 +128,6 @@ app.post("/registerCompany", function (req, res) {
                         console.log("error Recived from adminData", err);
                     }
                     else {
-                        console.log("adminData.save function is ", adminSave);
                     }
                 }
             }).then(function () {

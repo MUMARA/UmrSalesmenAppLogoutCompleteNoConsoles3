@@ -5,7 +5,14 @@ var path = require("path");
 var bodyParser = require("body-parser");
 var Firebase = require("firebase");
 var mongoose = require('mongoose');
+
+let cors                = require('cors');
+import mobileRoutes = require("./mobile");
+
 var app = express();
+
+app.use( cors() );
+
 mongoose.connect('mongodb://umar:mumar.5gbfree.com@ds015398.mlab.com:15398/umar');
 var ref = new Firebase("https://umrsalesman.firebaseio.com");
 
@@ -27,6 +34,10 @@ app.use(function (req, res, next) {
     //  console.log("uid:",req.query.uid , "token:", req.query.token );
     next();
 });
+
+
+
+app.use("/mobo",mobileRoutes);
 
 app.post("/signUp", function (req, res) {
 
@@ -79,6 +90,7 @@ app.post("/signIn", function (req, res) {
     }, function (error, authData) {
         if (error) {
             console.log("Login Failed!", error);
+            res.status(401);
             res.send("signin failed");
         } else {
             //  console.log("Authenticated successfully with payload:", authData);

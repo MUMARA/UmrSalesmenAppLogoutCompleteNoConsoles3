@@ -1,3 +1,4 @@
+"use strict";
 ///<reference path="typings/tsd.d.ts"/>
 var express = require("express");
 var http = require("http");
@@ -5,7 +6,10 @@ var path = require("path");
 var bodyParser = require("body-parser");
 var Firebase = require("firebase");
 var mongoose = require('mongoose');
+var cors = require('cors');
+var mobileRoutes = require("./mobile");
 var app = express();
+app.use(cors());
 mongoose.connect('mongodb://umar:mumar.5gbfree.com@ds015398.mlab.com:15398/umar');
 var ref = new Firebase("https://umrsalesman.firebaseio.com");
 /* mongoose schema*/
@@ -23,6 +27,7 @@ app.use(function (req, res, next) {
     //  console.log("uid:",req.query.uid , "token:", req.query.token );
     next();
 });
+app.use("/mobo", mobileRoutes);
 app.post("/signUp", function (req, res) {
     /*firebase coding https://www.firebase.com/docs/web/api/firebase/createuser.html*/
     ref.createUser({
@@ -71,6 +76,7 @@ app.post("/signIn", function (req, res) {
     }, function (error, authData) {
         if (error) {
             console.log("Login Failed!", error);
+            res.status(401);
             res.send("signin failed");
         }
         else {

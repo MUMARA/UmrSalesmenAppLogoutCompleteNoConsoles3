@@ -7,11 +7,11 @@ angular.module('starter')
 
             $http.post("/signup", $scope.newUser).then(function (response) {
                 
-                $rootScope.signUpMongoId = response.data;
-                console.log("signUpMongoId is ",response.data);
-                
+            //    $rootScope.signUpMongoId = response.data;
+              //  console.log("signUpMongoId is ",response.data);
+            
             }, function myError(err) {
-                console.log("signUp.js error " + err.statusText);
+                console.log("admin signUp.js error " + err.statusText);
                 $scope.displaySignup = err.statusText;
 
             });

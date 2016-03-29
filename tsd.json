@@ -15,7 +15,10 @@
       "commit": "72f0056f69f9a2290d2589c1a692896d24406928"
     },
     "node/node.d.ts": {
-      "commit": "72f0056f69f9a2290d2589c1a692896d24406928"
+      "commit": "d95596ca622a23e258859a2d7d71c4af959da21a"
+    },
+    "mongoose/mongoose.d.ts": {
+      "commit": "d95596ca622a23e258859a2d7d71c4af959da21a"
     }
   }
 }
